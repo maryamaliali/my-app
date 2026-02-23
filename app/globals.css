@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
+/* ================= ROOT THEME ================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b1023;
+  --foreground: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================= HERO BACKGROUND SYSTEM ================= */
+
+.hero-bg {
+  position: relative;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.25), transparent 40%),
+    radial-gradient(circle at 85% 60%, rgba(59, 130, 246, 0.25), transparent 40%),
+    linear-gradient(135deg, #0b1023 0%, #0e1635 40%, #0b1023 100%);
+}
+
+/* Subtle dotted grid */
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* ================= FLOATING ANIMATIONS ================= */
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes floatMedium {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes floatFast {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+
+.float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: floatMedium 5s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: floatFast 4s ease-in-out infinite;
+}
+
+/* Performance optimization */
+.float-slow,
+.float-medium,
+.float-fast {
+  will-change: transform;
+}
+
+/* ================= IMAGE FADE-IN (SMOOTH) ================= */
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards;
+  will-change: opacity, transform;
+}
+
+/* Stagger delays */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+.delay-7 { animation-delay: 0.7s; }
+.delay-8 { animation-delay: 0.8s; }
+
+/* ================= YELLOW SVG DRAW ANIMATION ================= */
+
+@keyframes drawLine {
+  from {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawLine 1.4s ease-out forwards;
+  will-change: stroke-dashoffset;
+}
+
+/* ================= RESPONSIVE PERFORMANCE ================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .float-slow,
+  .float-medium,
+  .float-fast,
+  .fade-up,
+  .animate-draw {
+    animation: none !important;
+  }
 }
